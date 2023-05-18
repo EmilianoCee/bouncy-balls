@@ -48,13 +48,13 @@ Ball.prototype.update = function() {
 
 let balls = [];
 
-while(balls.length < 2) {
+while(balls.length < 25) {
     let size = random(25, 35);
     let ball = new Ball(
         random(0 + size, width - size),
         random(0 + size, height - size),
-        random(-2, 2),
-        random(-2, 2),
+        random(-7, 7),
+        random(-7, 7),
         `rgb(${random(0,255)}, ${random(0,255)}, ${random(0,255)})`,
         size
     );
@@ -70,6 +70,8 @@ Ball.prototype.collisionDetect = function() {
             const distance = Math.sqrt(dx * dx + dy * dy);
 
             if (distance < this.size + balls[j].size) {
+                balls[j].velX = - balls[j].velX;
+                balls[j].velY = - balls[j].velY;
                 balls[j].color = this.color = `rgb(${random(0,255)}, ${random(0,255)}, ${random(0,255)})`;
             }
         }
@@ -94,20 +96,20 @@ canvas.addEventListener(`click`, function(e) {
     console.log(balls[1].y);
     // console.log(balls[1].size)
 
-    let nBall = new Ball(
-        e.pageX,
-        e.pageY,
-        random(-5, 5),
-        random(-5, 5),
-        `rgb(${random(0,255)}, ${random(0,255)}, ${random(0,255)})`,
-        random(25, 35)
-    );
-    balls.push(nBall);
+    // let nBall = new Ball(
+    //     e.pageX,
+    //     e.pageY,
+    //     random(-5, 5),
+    //     random(-5, 5),
+    //     `rgb(${random(0,255)}, ${random(0,255)}, ${random(0,255)})`,
+    //     random(25, 35)
+    // );
+    // balls.push(nBall);
 
     for (let k = 0; k < balls.length; k++) {
-        if ((balls[k].x === e.pageX) && (balls[k].y === e.pageY)) {
+        if (Math.sqrt(Math.pow(e.clientX - balls[k].x, 2) + Math.pow(e.clientY - balls[k].y, 2)) <= balls[k].size) {
             console.log(`clicked`)
-            // balls[k].size *= 2;
+            balls[k].size /= 2;
         }
     }
 })
